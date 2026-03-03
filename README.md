@@ -246,5 +246,20 @@ Notification types:
 - `connection_closed` - sent when a VM disconnects (includes `mac_address`)
 - `hypervisor_error` - sent on hypervisor errors
 
+## Troubleshooting
+
+gvproxy exposes pprof endpoints on the `--listen` socket for diagnosing issues
+at runtime.
+
+Dump all goroutine stacks:
+```
+curl --unix-socket /tmp/network.sock http://localhost/debug/pprof/goroutine?debug=2
+```
+
+Heap profile:
+```
+curl --unix-socket /tmp/network.sock http://localhost/debug/pprof/heap?debug=1
+```
+
 ## Development
 Developers who want to work on gvisor-tap-vsock should visit the [Development](./DEVELOPMENT.md) document.

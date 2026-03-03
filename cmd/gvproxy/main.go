@@ -378,11 +378,11 @@ func httpServe(ctx context.Context, g *errgroup.Group, ln net.Listener, mux http
 
 func withProfiler(vn *virtualnetwork.VirtualNetwork) http.Handler {
 	mux := vn.Mux()
+	mux.HandleFunc("/debug/pprof/", pprof.Index)
+	mux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
+	mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
 	if InDebugMode() {
-		mux.HandleFunc("/debug/pprof/", pprof.Index)
-		mux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
 		mux.HandleFunc("/debug/pprof/profile", pprof.Profile)
-		mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
 	}
 	return mux
 }
